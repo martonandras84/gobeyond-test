@@ -64,7 +64,7 @@ public class UserParamValidatorTest {
   @Test(expected = UserTaskServiceException.class)
   public void testEmptyUserName() {
     //given
-    UserRequestDto dto = new UserRequestDto("", "firstName", "lastName");
+    UserRequestDto dto = new UserRequestDto(1L,"", "firstName", "lastName");
     Object[] args = new Object[]{dto};
     Mockito.when(joinPoint.getArgs()).thenReturn(args);
 
@@ -75,7 +75,7 @@ public class UserParamValidatorTest {
   @Test
   public void testValidUserName() {
     //given
-    UserRequestDto dto = new UserRequestDto("userName", "firstName", "lastName");
+    UserRequestDto dto = new UserRequestDto(1L,"userName", "firstName", "lastName");
     Object[] args = new Object[]{dto};
     Mockito.when(joinPoint.getArgs()).thenReturn(args);
 

@@ -69,6 +69,6 @@ public class UserControllerTest {
   }
 
   private UserRequestDto createUserDto() {
-    return new UserRequestDto("userName", "firstName", "lastName");
+    return new UserRequestDto(1L, "userName", "firstName", "lastName");
   }
 }

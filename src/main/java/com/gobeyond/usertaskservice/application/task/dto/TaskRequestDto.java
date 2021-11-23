@@ -38,7 +38,7 @@ public class TaskRequestDto {
   private TaskStatus status;
 
   public static TaskRequestDto of(Task task) {
-    return TaskRequestDto.builder().name(task.getTaskName()).description(task.getDescription())
+    return TaskRequestDto.builder().id(task.getId()).name(task.getTaskName()).description(task.getDescription())
         .dateTime(task.getDateTime()).status(task.getStatus()).build();
   }
 }

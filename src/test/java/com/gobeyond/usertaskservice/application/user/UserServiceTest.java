@@ -83,7 +83,7 @@ public class UserServiceTest {
   public void testUpdateUserMerged() {
     //given
     User existingUser = createUser();
-    UserRequestDto userDto = new UserRequestDto("userName", "updatedFirstName", "updatedLastName");
+    UserRequestDto userDto = new UserRequestDto(1L, "userName", "updatedFirstName", "updatedLastName");
 
     when(userRepository.findById(Mockito.any())).thenReturn(Optional.of(existingUser));
 
@@ -128,6 +128,6 @@ public class UserServiceTest {
   }
 
   private UserRequestDto createUserDto() {
-    return new UserRequestDto("userName", "firstName", "lastName");
+    return new UserRequestDto(1L, "userName", "firstName", "lastName");
   }
 }

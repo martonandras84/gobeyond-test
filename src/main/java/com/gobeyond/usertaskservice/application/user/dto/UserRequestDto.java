@@ -18,6 +18,9 @@ import lombok.Setter;
 @Builder
 public class UserRequestDto {
 
+  @JsonProperty(value = "id")
+  private Long id;
+
   @JsonProperty(value = "username")
   private String userName;
 
@@ -28,7 +31,7 @@ public class UserRequestDto {
   private String lastName;
 
   public static UserRequestDto of(User user) {
-    return UserRequestDto.builder().userName(user.getUserName()).firstName(user.getFirstName()).lastName(
-        user.getLastName()).build();
+    return UserRequestDto.builder().id(user.getId()).userName(user.getUserName()).firstName(user.getFirstName())
+        .lastName(user.getLastName()).build();
   }
 }
