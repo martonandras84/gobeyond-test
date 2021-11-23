@@ -8,6 +8,8 @@ import static org.mockito.Mockito.when;
 import com.gobeyond.usertaskservice.application.task.dto.TaskRequestDto;
 import com.gobeyond.usertaskservice.domain.model.task.Task;
 import com.gobeyond.usertaskservice.domain.model.task.TaskRepository;
+import com.gobeyond.usertaskservice.domain.model.user.User;
+import com.gobeyond.usertaskservice.domain.model.user.UserRepository;
 import com.gobeyond.usertaskservice.domain.shared.TaskStatus;
 import com.gobeyond.usertaskservice.infrastructure.validation.exception.UserTaskServiceException;
 import java.time.LocalDateTime;
@@ -31,12 +33,20 @@ public class TaskServiceTest {
   @Mock
   TaskRepository taskRepository;
 
+  @Mock
+  UserRepository userRepository;
+
   @InjectMocks
   TaskServiceImpl taskService;
 
-  @Test(expected = NullPointerException.class)
-  public void testCreateTaskParamNull() {
-    taskService.createTask(null, null);
+  @Test(expected = UserTaskServiceException.class)
+  public void testCreateTaskMissingUser() {
+    //given
+    TaskRequestDto taskDto = createTaskDto();
+    when(userRepository.findById(Mockito.any())).thenReturn(Optional.empty());
+
+    //when
+    taskService.createTask(taskDto, 1L);
   }
 
   @Test
@@ -44,6 +54,9 @@ public class TaskServiceTest {
     //given
     TaskRequestDto taskDto = createTaskDto();
     when(taskRepository.save(Mockito.any())).then(param -> param.getArgument(0));
+
+    User user = User.builder().userName("userName").firstName("firstName").lastName("lastName").build();
+    when(userRepository.findById(Mockito.any())).thenReturn(Optional.of(user));
 
     //when
     taskService.createTask(taskDto, 1L);

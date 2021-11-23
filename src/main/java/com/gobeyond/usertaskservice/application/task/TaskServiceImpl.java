@@ -1,6 +1,8 @@
 package com.gobeyond.usertaskservice.application.task;
 
 import com.gobeyond.usertaskservice.application.task.dto.TaskRequestDto;
+import com.gobeyond.usertaskservice.domain.model.user.User;
+import com.gobeyond.usertaskservice.domain.model.user.UserRepository;
 import com.gobeyond.usertaskservice.infrastructure.validation.ValidateTaskParams;
 import com.gobeyond.usertaskservice.domain.model.task.Task;
 import com.gobeyond.usertaskservice.domain.model.task.TaskRepository;
@@ -26,9 +28,18 @@ public class TaskServiceImpl implements TaskService {
   @Autowired
   private TaskRepository taskRepository;
 
+  @Autowired
+  private UserRepository userRepository;
+
   @Override
   @ValidateTaskParams
   public Optional<TaskRequestDto> createTask(TaskRequestDto dto, Long userId) {
+
+    Optional<User> userOptional = userRepository.findById(userId);
+    if (userOptional.isEmpty()) {
+      throw new UserTaskServiceException(String.format(UserTaskServiceException.USER_NOT_FOUND, userId));
+    }
+
     Task task = Task.of(userId, dto, TaskStatus.PENDING);
     taskRepository.save(task);
     return Optional.of(TaskRequestDto.of(task));
