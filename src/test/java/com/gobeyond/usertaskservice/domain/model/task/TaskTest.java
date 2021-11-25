@@ -49,8 +49,11 @@ public class TaskTest {
   @Test
   public void testMergeWithSameValues() {
     //given
+    LocalDateTime now = LocalDateTime.now();
     Task taskOrig = createTask();
+    taskOrig.setDateTime(now);
     Task taskNew = createTask();
+    taskNew.setDateTime(now);
 
     //when
     boolean actual = taskOrig.merge(taskNew);
